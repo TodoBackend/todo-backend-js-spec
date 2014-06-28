@@ -22,6 +22,10 @@ class TodoRepo
   def all_todos
     @store.values
   end
+
+  def clear!
+    @store = {}
+  end
 end
 
 class TodoApp < Sinatra::Base
@@ -66,6 +70,11 @@ class TodoApp < Sinatra::Base
     status 201
     # content_type :json
     todo_repr(stored_todo).to_json
+  end
+
+  delete "/todos" do
+    @repo.clear!
+    status 204
   end
 
   get "/todos/:todo_uid" do

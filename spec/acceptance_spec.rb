@@ -23,6 +23,12 @@ describe 'acceptance specs' do
     "/todos"
   end
 
+  let(:todo_text){ "I'm a todo" }
+
+  def post_a_new_todo
+    post todos_url, {"text" => todo_text}.to_json
+  end
+
   it 'returns an empty list of todos' do
     get todos_url
     expect(last_response).to be_ok
@@ -30,11 +36,6 @@ describe 'acceptance specs' do
   end
 
   describe 'storing a new todo' do
-    let(:todo_text){ "I'm a todo" }
-
-    def post_a_new_todo
-      post todos_url, {"text" => todo_text}.to_json
-    end
 
     def verify_todo_looks_correct( actual_todo )
       expect(actual_todo["text"]).to eq todo_text
@@ -74,8 +75,29 @@ describe 'acceptance specs' do
     end
   end
 
-  describe 'deleting all todos' do
+  it 'supports deleting all todos' do
+    post_a_new_todo
+    post_a_new_todo
+
+    get todos_url
+
+    expect(last_response_json).not_to be_empty
+
+    existing_todo_url = last_response_json.first["href"]
+    get existing_todo_url
+    expect(last_response.status).to eq 200
+
+    delete todos_url
+    expect(last_response.status).to eq 204 # no content
+
+    get todos_url
+
+    expect(last_response_json).to be_empty
+
+    get existing_todo_url
+    expect(last_response.status).to eq 404
   end
+
 
   # TODO: content type
 end
