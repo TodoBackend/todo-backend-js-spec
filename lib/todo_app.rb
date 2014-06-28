@@ -29,16 +29,24 @@ class TodoApp < Sinatra::Base
     JSON.parse(request.env["rack.input"].read)
   end
 
+  def todos_url
+    "/todos"
+  end
+
   def todo_url(todo)
     "/todos/#{todo.fetch("uid")}"
   end
 
   get '/' do
+    redirect todos_url
+  end
+
+  get '/todos' do
     "[]"
     # content_type :json
   end
   
-  post "/" do
+  post "/todos" do
     new_todo = json_body
     stored_todo = @repo.add_todo(new_todo)
 

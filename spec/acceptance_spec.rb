@@ -19,8 +19,12 @@ describe 'acceptance specs' do
     JSON.parse(last_response.body)
   end
 
+  def todos_url
+    "/todos"
+  end
+
   it 'returns an empty list of todos' do
-    get '/'
+    get todos_url
     expect(last_response).to be_ok
     expect(last_response_json).to eq []
   end
@@ -32,7 +36,7 @@ describe 'acceptance specs' do
 
   describe 'storing a new todo' do
     def post_a_new_todo
-      post '/', %Q|{"text":"my first todo"}|
+      post todos_url, %Q|{"text":"my first todo"}|
     end
 
     def verify_todo_looks_correct( actual_todo )
@@ -54,6 +58,8 @@ describe 'acceptance specs' do
       verify_todo_looks_correct(last_response_json)
     end
 
+    it 'lists new todos' do
+    end
   end
 
   # TODO: content type
