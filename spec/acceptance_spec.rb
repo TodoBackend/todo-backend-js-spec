@@ -12,7 +12,7 @@ describe 'acceptance specs' do
   include Rack::Test::Methods
 
   def app
-    TodoApp
+    TodoApp.new
   end
 
   def last_response_json
@@ -59,6 +59,13 @@ describe 'acceptance specs' do
     end
 
     it 'lists new todos' do
+      post_a_new_todo
+
+      get todos_url
+
+      all_todos = last_response_json
+      expect(all_todos.count).to be(1)
+      verify_todo_looks_correct(all_todos[0])
     end
   end
 

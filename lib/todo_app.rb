@@ -18,10 +18,15 @@ class TodoRepo
   def [](uid)
     @store[uid]
   end
+
+  def all_todos
+    @store.values
+  end
 end
 
 class TodoApp < Sinatra::Base
   def initialize
+    super
     @repo = TodoRepo.new
   end
 
@@ -42,7 +47,7 @@ class TodoApp < Sinatra::Base
   end
 
   get '/todos' do
-    "[]"
+    @repo.all_todos.to_json
     # content_type :json
   end
   
