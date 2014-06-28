@@ -1,6 +1,10 @@
 source 'https://www.rubygems.org'
 gem 'sinatra'
-gem 'rspec', group: :test
-gem 'rack-test', group: :test
+
+group :test do
+  gem 'rspec'
+  gem 'rack-test'
+  gem 'rest_client'
+end
 
 gem 'pry-nav', group: :development
