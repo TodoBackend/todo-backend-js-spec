@@ -47,6 +47,12 @@ describe 'reference specs for Todo Backend' do
     delete( todos_url )
   end
 
+  it 'has CORS headers' do
+    response = get(todos_url)
+    expect(response.raw_headers).to have_key("access-control-allow-origin")
+    expect(response.raw_headers["access-control-allow-origin"].first).to eq("*")
+  end
+
   it 'initially returns an empty list' do
     response = get(todos_url)
     expect(response.code).to eq 200

@@ -34,6 +34,10 @@ class TodoApp < Sinatra::Base
     @repo = TodoRepo.new
   end
 
+  before do
+    headers "access-control-allow-origin" => "*"
+  end
+
   def json_body
     JSON.parse(request.env["rack.input"].read)
   end
