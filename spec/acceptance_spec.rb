@@ -41,6 +41,7 @@ describe 'acceptance specs' do
 
     def verify_todo_looks_correct( actual_todo )
       expect(actual_todo["text"]).to eq "my first todo"
+      expect(actual_todo).to have_key("href")
     end
 
     it 'returns a 201 which contains the new todo' do

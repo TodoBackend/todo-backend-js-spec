@@ -42,12 +42,18 @@ class TodoApp < Sinatra::Base
     "/todos/#{todo.fetch("uid")}"
   end
 
+  def todo_repr(todo)
+    todo.merge({
+      "href" => todo_url(todo)
+    })
+  end
+
   get '/' do
     redirect todos_url
   end
 
   get '/todos' do
-    @repo.all_todos.to_json
+    @repo.all_todos.map{|t|todo_repr(t)}.to_json
     # content_type :json
   end
   
@@ -59,7 +65,7 @@ class TodoApp < Sinatra::Base
     headers["Location"] = todo_url(stored_todo)
     status 201
     # content_type :json
-    new_todo.to_json
+    todo_repr(stored_todo).to_json
   end
 
   get "/todos/:todo_uid" do
@@ -67,6 +73,6 @@ class TodoApp < Sinatra::Base
     
     halt 404 if todo.nil?
 
-    todo.to_json
+    todo_repr(todo).to_json
   end
 end
