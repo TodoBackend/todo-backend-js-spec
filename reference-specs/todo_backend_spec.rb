@@ -55,8 +55,10 @@ describe 'reference specs for Todo Backend' do
 
   describe 'storing a new todo' do
 
-    def verify_todo_has_expected_text( actual_todo, expected_text )
-      expect(actual_todo["text"]).to eq expected_text
+    def verify_response_represents_todo_with_expected_text( response, expected_text )
+      parsed_todo_response = JSON.parse(response.body)
+      expect(parsed_todo_response).to have_key("text")
+      expect(parsed_todo_response["text"]).to eq(expected_text)
     end
 
     it 'returns a 201 which contains the new todo' do
@@ -66,7 +68,7 @@ describe 'reference specs for Todo Backend' do
       )
 
       expect(response.code).to eq 201
-      expect( JSON.parse(response.body) ).to have_key("text")
+      verify_response_represents_todo_with_expected_text(response,"my new todo")
     end
 
     it 'returns a 201 with a Location which points to the new todo' do
@@ -82,9 +84,38 @@ describe 'reference specs for Todo Backend' do
 
       todo_response = get( todo_url )
       expect(todo_response.code).to eq 200
-      parsed_todo_response = JSON.parse(todo_response.body)
-      expect(parsed_todo_response).to have_key("text")
-      expect(parsed_todo_response["text"]).to eq("my new todo")
+      verify_response_represents_todo_with_expected_text(todo_response,"my new todo")
     end
+  end
+
+  it 'lists all stored todos' do
+      post( 
+        todos_url, 
+        {"text" => "feed the pidgeons"}.to_json
+      )
+      post( 
+        todos_url, 
+        {"text" => "walk the dog"}.to_json
+      )
+
+      todos_response = get( todos_url )
+      expect( todos_response.code ).to eq 200
+      parsed_todos = JSON.parse(todos_response.body)
+      expect( parsed_todos.count ).to be(2)
+      expect( parsed_todos[0]["text"] ).to eq "feed the pidgeons"
+      expect( parsed_todos[1]["text"] ).to eq "walk the dog"
+  end
+
+  it 'deletes all todos' do
+      post( 
+        todos_url, 
+        {"text" => "walk the dog"}.to_json
+      )
+
+      delete( todos_url )
+
+      todos_response = get( todos_url )
+      expect( todos_response.code ).to eq 200
+      expect( JSON.parse(todos_response.body) ).to eq []
   end
 end
