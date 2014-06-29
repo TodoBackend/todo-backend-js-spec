@@ -11,6 +11,7 @@ class TodoRepo
     todo = todo.clone
     uid = SecureRandom.uuid
     todo["uid"] = uid
+    todo["completed"] = false
     @store[uid] = todo
     todo
   end
@@ -34,6 +35,11 @@ class TodoApp < Sinatra::Base
     @repo = TodoRepo.new
   end
 
+  configure :development do
+    require 'sinatra/reloader'
+    register Sinatra::Reloader
+  end
+
   before do
     headers "access-control-allow-origin" => "*"
   end
@@ -43,11 +49,11 @@ class TodoApp < Sinatra::Base
   end
 
   def todos_url
-    "/todos"
+    uri( "/todos" )
   end
 
   def todo_url(todo)
-    "/todos/#{todo.fetch("uid")}"
+    uri( "/todos/#{todo.fetch("uid")}" )
   end
 
   def todo_repr(todo)
@@ -81,11 +87,19 @@ class TodoApp < Sinatra::Base
     status 204
   end
 
-  get "/todos/:todo_uid" do
+  def lookup_todo_or_404
     todo = @repo[params[:todo_uid]]
-    
     halt 404 if todo.nil?
+    todo
+  end
 
+  get "/todos/:todo_uid" do
+    todo_repr(lookup_todo_or_404).to_json
+  end
+
+  patch "/todos/:todo_uid" do
+    todo = lookup_todo_or_404
+    todo["text"] = json_body["text"]
     todo_repr(todo).to_json
   end
 end

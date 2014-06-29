@@ -13,4 +13,7 @@ group :test do
   gem 'rest_client'
 end
 
-gem 'pry-nav', group: :development
+group :development do
+  gem 'pry-nav'
+  gem 'sinatra-contrib'
+end

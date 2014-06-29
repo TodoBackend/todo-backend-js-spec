@@ -42,6 +42,15 @@ describe 'reference specs for Todo Backend' do
   rescue RestClient::Exception
     give_feedback_that_we_cant_reset_todo_list
   end
+  def patch(*args)
+    RestClient.patch( *args )
+  end
+
+  def verify_response_represents_todo_with_expected_text( response, expected_text )
+    parsed_todo_response = JSON.parse(response.body)
+    expect(parsed_todo_response).to have_key("text")
+    expect(parsed_todo_response["text"]).to eq(expected_text)
+  end
 
   before :each do
     delete( todos_url )
@@ -61,11 +70,6 @@ describe 'reference specs for Todo Backend' do
 
   describe 'storing a new todo' do
 
-    def verify_response_represents_todo_with_expected_text( response, expected_text )
-      parsed_todo_response = JSON.parse(response.body)
-      expect(parsed_todo_response).to have_key("text")
-      expect(parsed_todo_response["text"]).to eq(expected_text)
-    end
 
     it 'returns a 201 which contains the new todo' do
       response = post( 
@@ -91,6 +95,30 @@ describe 'reference specs for Todo Backend' do
       todo_response = get( todo_url )
       expect(todo_response.code).to eq 200
       verify_response_represents_todo_with_expected_text(todo_response,"my new todo")
+    end
+  end
+
+  let(:existing_todo_url) do
+    create_response = post( 
+      todos_url, 
+      {"text" => "the todo text"}.to_json
+    )
+    expect(create_response.code).to eq 201
+    expect(create_response.raw_headers).to have_key("location")
+    create_response.raw_headers["location"].first
+  end
+
+  describe 'modifying a todo' do
+    it "can update a todo's text" do 
+      modify_response = patch( 
+        existing_todo_url, 
+        {"text" => "updated text"}.to_json
+      )
+      expect(modify_response.code).to eq 200
+      verify_response_represents_todo_with_expected_text(modify_response,"updated text")
+
+      get_response = get( existing_todo_url )
+      verify_response_represents_todo_with_expected_text(get_response,"updated text")
     end
   end
 
@@ -123,5 +151,14 @@ describe 'reference specs for Todo Backend' do
       todos_response = get( todos_url )
       expect( todos_response.code ).to eq 200
       expect( JSON.parse(todos_response.body) ).to eq []
+  end
+
+  describe 'completed-ness of a todo' do
+    it 'starts as not completed' do
+      todo_response = get( existing_todo_url )
+      fresh_todo = JSON.parse( get(existing_todo_url).body )
+      expect(fresh_todo).to have_key("completed")
+      expect(fresh_todo["completed"]).to eq false
+    end
   end
 end
