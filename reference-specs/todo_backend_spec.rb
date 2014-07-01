@@ -45,6 +45,9 @@ describe 'reference specs for Todo Backend' do
   def patch(*args)
     RestClient.patch( *args )
   end
+  def options(*args)
+    RestClient.options( *args )
+  end
 
   def verify_response_represents_todo_with_expected_text( response, expected_text )
     parsed_todo_response = JSON.parse(response.body)
@@ -57,9 +60,11 @@ describe 'reference specs for Todo Backend' do
   end
 
   it 'has CORS headers' do
-    response = get(todos_url)
+    response = options(todos_url, "access-control-request-headers" => "foo, bar")
     expect(response.raw_headers).to have_key("access-control-allow-origin")
     expect(response.raw_headers["access-control-allow-origin"].first).to eq("*")
+    expect(response.raw_headers).to have_key("access-control-allow-headers")
+    expect(response.raw_headers["access-control-allow-headers"].first).to eq("foo, bar")
   end
 
   it 'initially returns an empty list' do

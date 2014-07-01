@@ -42,6 +42,9 @@ class TodoApp < Sinatra::Base
 
   before do
     headers "access-control-allow-origin" => "*"
+    if env.has_key? "HTTP_ACCESS_CONTROL_REQUEST_HEADERS"
+      headers "access-control-allow-headers" => env["HTTP_ACCESS_CONTROL_REQUEST_HEADERS"]
+    end
   end
 
   def json_body
@@ -64,6 +67,10 @@ class TodoApp < Sinatra::Base
 
   get '/' do
     redirect todos_url
+  end
+
+  options '/todos' do
+    headers "allow" => "GET,HEAD,POST,DELETE,OPTIONS,PUT"
   end
 
   get '/todos' do
