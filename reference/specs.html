@@ -7,17 +7,17 @@
 <body>
   <div id="mocha"></div>
   <script src="js/underscore.js"></script>
-  <script src="js/reqwest.js"></script>
+  <script src="js/jquery.js"></script>
   <script src="js/q.js"></script>
   <script src="js/chai.js"></script>
   <script src="js/chai-as-promised.js"></script>
   <script src="js/mocha.js"></script>
   <script>
-    mocha.setup('bdd')
+    mocha.setup('bdd');
+    mocha.slow("5s");
     window.expect = chai.expect;
 
-    window.TODO_ROOT_URL = "http://localhost:9292/todos"
-
+    window.TODO_ROOT_URL = "http://localhost:9292/todos";
   </script>
   <script src="js/specs.js"></script>
   <script>

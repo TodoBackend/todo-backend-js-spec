@@ -61,7 +61,8 @@ class TodoApp < Sinatra::Base
 
   def todo_repr(todo)
     todo.merge({
-      "href" => todo_url(todo)
+      "href" => todo_url(todo),
+      "url" => todo_url(todo)
     })
   end
 
@@ -70,7 +71,7 @@ class TodoApp < Sinatra::Base
   end
 
   options '/todos' do
-    headers "allow" => "GET,HEAD,POST,DELETE,OPTIONS,PUT"
+    headers "access-control-allow-methods" => "GET,HEAD,POST,DELETE,OPTIONS,PUT"
   end
 
   get '/todos' do
@@ -81,7 +82,6 @@ class TodoApp < Sinatra::Base
   post "/todos" do
     new_todo = json_body
     stored_todo = @repo.add_todo(new_todo)
-
 
     headers["Location"] = todo_url(stored_todo)
     status 201
@@ -100,13 +100,17 @@ class TodoApp < Sinatra::Base
     todo
   end
 
+  options '/todos/:todo_uid' do
+    headers "access-control-allow-methods" => "GET,PATCH,HEAD,DELETE,OPTIONS"
+  end
+
   get "/todos/:todo_uid" do
     todo_repr(lookup_todo_or_404).to_json
   end
 
   patch "/todos/:todo_uid" do
     todo = lookup_todo_or_404
-    todo["text"] = json_body["text"]
+    todo.merge!( json_body )
     todo_repr(todo).to_json
   end
 end
