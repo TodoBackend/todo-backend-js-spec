@@ -7,6 +7,7 @@ describe( "Todo-Backend API residing at "+todoRootUrl, function(){
       url: todoRootUrl,
       dataType: "json",
       contentType: "json",
+      timeout: 5000
     });
     return Q($.ajax(params));
   }
