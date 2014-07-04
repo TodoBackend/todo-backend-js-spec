@@ -9,8 +9,12 @@ function loadTargetRootFromInput(){
 }
 
 $('#target-root button').on('click',loadTargetRootFromInput);
-// FIXME: doesn't work
-$('#target-root input').on('submit',loadTargetRootFromInput); 
+$('#target-root input').on('keyup',function(){
+  if(event.keyCode == 13){
+    loadTargetRootFromInput();
+  }
+});
+
 
 targetRootUrl = window.location.search.substr(1);
 
