@@ -38,12 +38,11 @@ describe( "Todo-Backend API residing at "+todoRootUrl, function(){
 
 
   describe( "the basics", function(){
-    beforeEach(function(){
-      return deleteRoot();
-    });
-
-    it("initially returns an empty list of todos", function(){
-      return expect(getRoot()).to.become([]);
+    it("returns an empty list of todos after creating one and then deleting all of them", function(){
+      var createThenDeleteAllThenGetAll = postRoot({title:"blah"})
+        .then(deleteRoot)
+        .then(getRoot);
+      return expect(createThenDeleteAllThenGetAll).to.become([]);
     });
   });
 
