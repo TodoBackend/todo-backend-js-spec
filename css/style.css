@@ -1,10 +1,44 @@
 #target-root {
-  font: 20px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 30px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 100;
-  margin: 1em;
+  margin: 1em 4em;
+  position: relative;
+}
+
+#target-root .wrapper {
+  border: 1px black dotted;
+  padding: 1em 0.5em 1em 2em;
+  position: relative;
+}
+
+#target-root label {
+  position: absolute;
+  top: -25px;
+  left: 10px;
+  padding: 0 8px;
+  background: white;
 }
 
 #target-root input {
-  display: inline;
-  width: 80%;
+  font: inherit;
+  width: 100%;
+  padding: 0 0.2em;
+}
+
+#target-root button {
+  border: none;
+  font: inherit;
+  font-size: 40px;
+  font-weight: 400;
+  margin-top: 0.4em;
+  margin-right: 0;
+
+  float: right;
+
+  padding: 0.2em 0.6em;
+  background-color: rgb(48, 173, 48); 
+  color: white;
+}
+#target-root button:hover {
+  background-color: rgb(8, 123, 8); 
 }
