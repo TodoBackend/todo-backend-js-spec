@@ -12,6 +12,7 @@
 }
 
 #target-root label {
+  font-style: italic;
   position: absolute;
   top: -25px;
   left: 10px;
@@ -38,6 +39,10 @@
   padding: 0.2em 0.6em;
   background-color: rgb(48, 173, 48); 
   color: white;
+
+  -webkit-box-shadow: 2px 2px 1px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow:    2px 2px 1px rgba(50, 50, 50, 0.75);
+  box-shadow:         2px 2px 1px rgba(50, 50, 50, 0.75);
 }
 #target-root button:hover {
   background-color: rgb(8, 123, 8); 
