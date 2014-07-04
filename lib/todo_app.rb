@@ -27,6 +27,10 @@ class TodoRepo
   def clear!
     @store = {}
   end
+
+  def delete(uid)
+    @store.delete(uid)
+  end
 end
 
 class TodoApp < Sinatra::Base
@@ -106,6 +110,11 @@ class TodoApp < Sinatra::Base
 
   get "/todos/:todo_uid" do
     todo_repr(lookup_todo_or_404).to_json
+  end
+
+  delete "/todos/:todo_uid" do
+    @repo.delete(params[:todo_uid])
+    status 204
   end
 
   patch "/todos/:todo_uid" do

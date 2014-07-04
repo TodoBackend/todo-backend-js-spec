@@ -26,6 +26,9 @@ describe( "Todo-Backend API residing at "+todoRootUrl, function(){
   function patch(url,data){
     return ajax({type:"patch",url:url,data:JSON.stringify(data)});
   }
+  function deleteTo(url){
+    return ajax({type:"delete",url:url});
+  }
 
   describe( "first things first: can we access the server?", function(){
     it("access "+todoRootUrl+" from this test runner (i.e. CORS headers are in place)", function(){
@@ -86,7 +89,7 @@ describe( "Todo-Backend API residing at "+todoRootUrl, function(){
     });
   });
 
-  describe( "modifying an existing todo", function(){
+  describe( "working with an existing todo", function(){
     beforeEach(function(){
       return deleteRoot();
     });
@@ -114,7 +117,7 @@ describe( "Todo-Backend API residing at "+todoRootUrl, function(){
         });
     });
 
-    it("changes to a TODO are persisted and show up when re-fetching the todo", function(){
+    it("changes to a todo are persisted and show up when re-fetching the todo", function(){
       var patchedTodo = createFreshTodoAndGetItsUrl()
         .then( function(urlForNewTodo){
           return patch( urlForNewTodo, {title:"changed title", completed:true} );
@@ -143,8 +146,15 @@ describe( "Todo-Backend API residing at "+todoRootUrl, function(){
         verifyRefetchedTodoList
       ]);
     });
-  });
 
+    it("can change delete a todo making a DELETE request to the todo's url", function(){
+      var todosAfterCreatingAndDeletingTodo = createFreshTodoAndGetItsUrl()
+        .then( function(urlForNewTodo){
+          return deleteTo(urlForNewTodo);
+        }).then( getRoot );
+      return expect(todosAfterCreatingAndDeletingTodo).to.eventually.be.empty;
+    });
+  });
 });
 
 }
