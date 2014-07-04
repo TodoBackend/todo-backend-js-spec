@@ -1,0 +1,10 @@
+#target-root {
+  font: 20px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  margin: 1em;
+}
+
+#target-root input {
+  display: inline;
+  width: 80%;
+}

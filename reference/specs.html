@@ -3,26 +3,28 @@
   <meta charset="utf-8">
   <title>Reference Specs for Todo-Backend</title>
   <link rel="stylesheet" href="css/mocha.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div id="mocha"></div>
-  <script src="js/underscore.js"></script>
-  <script src="js/jquery.js"></script>
-  <script src="js/q.js"></script>
-  <script src="js/chai.js"></script>
-  <script src="js/chai-as-promised.js"></script>
-  <script src="js/mocha.js"></script>
-  <script>
-    mocha.setup('bdd');
-    mocha.slow("5s");
-    window.expect = chai.expect;
+  <section id="target-root">
+    <label>
+      test target root:
+      <input placeholder="e.g. http://localhost:9292/todos"></input>
+    </label>
+    <button>run tests</button>
+  </section>
 
-    window.TODO_ROOT_URL = "http://localhost:9292/todos";
-  </script>
+  <section id="mocha"></section>
+
+  <script src="js/lib/underscore.js"></script>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/q.js"></script>
+  <script src="js/lib/chai.js"></script>
+  <script src="js/lib/chai-as-promised.js"></script>
+  <script src="js/lib/mocha.js"></script>
+
   <script src="js/specs.js"></script>
-  <script>
-    mocha.checkLeaks();
-    var runner = mocha.run();
-  </script>
+
+  <script src="js/setup.js"></script>
 </body>
 </html>

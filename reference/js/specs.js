@@ -1,8 +1,10 @@
-describe( "Reference specs for the Todo-Backend API residing at "+TODO_ROOT_URL, function(){
+function defineSpecsFor(todoRootUrl){
+
+describe( "Todo-Backend API residing at "+todoRootUrl, function(){
 
   function ajax(params){
     var params = _.defaults( params, {
-      url: TODO_ROOT_URL,
+      url: todoRootUrl,
       dataType: "json",
       contentType: "json",
     });
@@ -26,7 +28,7 @@ describe( "Reference specs for the Todo-Backend API residing at "+TODO_ROOT_URL,
   }
 
   describe( "first things first: can we access the server?", function(){
-    it("access "+TODO_ROOT_URL+" from this test runner (i.e. CORS headers are in place)", function(){
+    it("access "+todoRootUrl+" from this test runner (i.e. CORS headers are in place)", function(){
       return expect(getRoot()).to.be.fulfilled;
     });
   });
@@ -78,7 +80,7 @@ describe( "Reference specs for the Todo-Backend API residing at "+TODO_ROOT_URL,
 
     it("each new todo has a url", function(){
       return createTodoAndVerifyItLooksValidWith(function(todo){
-        expect(todo).to.have.property("url").is.a("string");
+        expect(todo).to.have.a.property("url").is.a("string");
         return todo;
       });
     });
@@ -118,13 +120,6 @@ describe( "Reference specs for the Todo-Backend API residing at "+TODO_ROOT_URL,
           return patch( urlForNewTodo, {title:"changed title", completed:true} );
         });
 
-      var verifyRefetchedTodo = patchedTodo.then(function(todo){
-        return get( todo.url );
-      }).then( function(refetchedTodo){
-        expect(refetchedTodo).to.have.property("completed",true);
-        expect(refetchedTodo).to.have.property("title","changed title");
-      });
-
       function verifyTodosProperties(todo){
         expect(todo).to.have.property("completed",true);
         expect(todo).to.have.property("title","changed title");
@@ -151,3 +146,5 @@ describe( "Reference specs for the Todo-Backend API residing at "+TODO_ROOT_URL,
   });
 
 });
+
+}
