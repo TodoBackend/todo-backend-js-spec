@@ -147,7 +147,7 @@ describe( "Todo-Backend API residing at "+todoRootUrl, function(){
       ]);
     });
 
-    it("can change delete a todo making a DELETE request to the todo's url", function(){
+    it("can delete a todo by making a DELETE request to the todo's url", function(){
       var todosAfterCreatingAndDeletingTodo = createFreshTodoAndGetItsUrl()
         .then( function(urlForNewTodo){
           return deleteTo(urlForNewTodo);
