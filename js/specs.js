@@ -156,7 +156,7 @@ function defineSpecsFor(apiRoot){
         ]);
       });
 
-      it("can change delete a todo making a DELETE request to the todo's url", function(){
+      it("can delete a todo making a DELETE request to the todo's url", function(){
         var todosAfterCreatingAndDeletingTodo = createFreshTodoAndGetItsUrl()
           .then( function(urlForNewTodo){
             return delete_(urlForNewTodo);
@@ -208,7 +208,7 @@ function defineSpecsFor(apiRoot){
     var ajaxOptions = _.defaults( (options||{}), {
       type: httpMethod,
       url: url,
-      contentType: "json",
+      contentType: "application/json",
       timeout: 5000
     });
 
