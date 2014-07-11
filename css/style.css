@@ -26,6 +26,16 @@
   padding: 0 0.2em;
 }
 
+#target-root .link-to-source {
+  font-size: small;
+  color: rgb(48, 173, 48);
+  text-decoration: none;
+}
+
+#target-root .link-to-source:hover {
+  text-decoration: underline;
+}
+
 #target-root button {
   border: none;
   font: inherit;
@@ -37,7 +47,7 @@
   float: right;
 
   padding: 0.2em 0.6em;
-  background-color: rgb(48, 173, 48); 
+  background-color: rgb(48, 173, 48);
   color: white;
 
   -webkit-box-shadow: 2px 2px 1px rgba(50, 50, 50, 0.75);
