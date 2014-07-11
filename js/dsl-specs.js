@@ -95,7 +95,7 @@ function defineSpecsFor(apiRoot){
       });
 
       specify( "after a DELETE the api root responds to a GET with a JSON representation of an empty array", function(){
-        var deleteThenGet = delete_(apiRoot).then(function(){ return getJson(apiRoot); });
+        var deleteThenGet = delete_(apiRoot).then( _.partial(getJson,apiRoot) );
 
         return expect( deleteThenGet ).to.become([]);
       });
