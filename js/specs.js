@@ -209,6 +209,7 @@ function defineSpecsFor(apiRoot){
       type: httpMethod,
       url: url,
       contentType: "application/json",
+      dataType: "text", // so we can explicitly parse JSON and fail with more detail than jQuery usually would give us
       timeout: 5000
     });
 
