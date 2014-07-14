@@ -37,6 +37,15 @@ function defineSpecsFor(apiRoot){
   }
 
   describe( "Todo-Backend API residing at "+apiRoot, function(){
+
+    function createFreshTodoAndGetItsUrl(params){
+      var postParams = _.defaults( (params||{}), {
+        title: "blah"
+      });
+      return postRoot(postParams)
+        .then( function(newTodo){ return newTodo.url; } );
+    };
+
     describe( "the pre-requisites", function(){
       specify( "the api root responds to a GET (i.e. the server is up and accessible, CORS headers are set up)", function(){
         var getRoot = getRaw(apiRoot);
@@ -103,11 +112,6 @@ function defineSpecsFor(apiRoot){
         return delete_(apiRoot);
       });
 
-      function createFreshTodoAndGetItsUrl(){
-        return postRoot({title:"wash the dog"})
-          .then( function(newTodo){ return newTodo.url; } );
-      };
-
       it("can change the todo's title by PATCHing to the todo's url", function(){
         return createFreshTodoAndGetItsUrl()
           .then( function(urlForNewTodo){
@@ -163,10 +167,24 @@ function defineSpecsFor(apiRoot){
           }).then( getRoot );
         return expect(todosAfterCreatingAndDeletingTodo).to.eventually.be.empty;
       });
+
     });
 
+    describe("tracking todo order", function(){
+      it("can create a todo with an order field", function(){
+        var postResult = postRoot({title:"blah",order:523});
+        return expect(postResult).to.eventually.have.property("order",523);
+      });
 
+      it("can PATCH a todo to change its order", function(){
+        var patchedTodo = createFreshTodoAndGetItsUrl( {order: 10} )
+          .then( function(newTodoUrl){
+            return patchJson(newTodoUrl,{order:95});
+          });
 
+        return expect(patchedTodo).to.eventually.have.property("order",95);
+      });
+    });
   });
 
 
