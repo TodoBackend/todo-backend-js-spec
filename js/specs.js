@@ -228,7 +228,7 @@ function defineSpecsFor(apiRoot){
       url: url,
       contentType: "application/json",
       dataType: "text", // so we can explicitly parse JSON and fail with more detail than jQuery usually would give us
-      timeout: 5000
+      timeout: 30000 // so that we don't fail while waiting on a heroku dyno to spin up
     });
 
     var xhr = $.ajax( ajaxOptions );
