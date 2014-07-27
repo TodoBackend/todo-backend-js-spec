@@ -5,12 +5,12 @@ window.expect = chai.expect;
 
 
 function loadTargetRootFromInput(){
-  var targetRoot = $('#target-root input').val();
+  var targetRoot = $('#target-chooser input').val();
   window.location.search = targetRoot;
 }
 
-$('#target-root button').on('click',loadTargetRootFromInput);
-$('#target-root input').on('keyup',function(){
+$('#target-chooser button').on('click',loadTargetRootFromInput);
+$('#target-chooser input').on('keyup',function(){
   if(event.keyCode == 13){
     loadTargetRootFromInput();
   }
@@ -20,10 +20,13 @@ $('#target-root input').on('keyup',function(){
 targetRootUrl = window.location.search.substr(1);
 
 if( targetRootUrl ){
+  $("#target-info .target-url").text(targetRootUrl);
+  $("#target-chooser").hide();
 
   defineSpecsFor(targetRootUrl);
 
-  $("#target-root").hide();
   mocha.checkLeaks();
   var runner = mocha.run();
+}else{
+  $("#target-info").hide();
 }

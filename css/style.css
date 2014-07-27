@@ -1,17 +1,17 @@
-#target-root {
+#target-chooser {
   font: 30px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 100;
   margin: 2em 4em;
   position: relative;
 }
 
-#target-root .wrapper {
+#target-chooser .wrapper {
   border: 1px black dotted;
   padding: 1em 0.5em 1em 2em;
   position: relative;
 }
 
-#target-root label {
+#target-chooser label {
   font-style: italic;
   position: absolute;
   top: -25px;
@@ -20,23 +20,23 @@
   background: white;
 }
 
-#target-root input {
+#target-chooser input {
   font: inherit;
   width: 100%;
   padding: 0 0.2em;
 }
 
-#target-root .link-to-source {
+#target-chooser .link-to-source {
   font-size: small;
   color: rgb(48, 173, 48);
   text-decoration: none;
 }
 
-#target-root .link-to-source:hover {
+#target-chooser .link-to-source:hover {
   text-decoration: underline;
 }
 
-#target-root button {
+#target-chooser button {
   border: none;
   font: inherit;
   font-size: 40px;
@@ -54,6 +54,34 @@
   -moz-box-shadow:    2px 2px 1px rgba(50, 50, 50, 0.75);
   box-shadow:         2px 2px 1px rgba(50, 50, 50, 0.75);
 }
-#target-root button:hover {
+#target-chooser button:hover {
   background-color: rgb(8, 123, 8); 
+}
+
+#target-info {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  padding: 1em 2em;
+
+  background: rgb(36, 110, 190);
+  color: rgb(243, 243, 243);
+}
+
+#target-info h2 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+#target-info a {
+  font-size: 1.2em;
+  color: inherit;
+}
+
+#target-info .target-url {
+  font-style: italic;
+  font-weight: 200;
+}
+
+#mocha {
+  margin-top: 5px;
 }

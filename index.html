@@ -6,13 +6,17 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <section id="target-root">
+  <section id="target-chooser">
     <div class="wrapper">
       <label for="target-root-url">test target root</label>
       <input id="target-root-url" placeholder="e.g. http://todo-backend-sinatra.herokuapp.com/todos"></input>
       <a class="link-to-source" href="https://github.com/moredip/todo-backend">view source</a>
     </div>
     <button>run tests</button>
+  </section>
+  <section id="target-info">
+    <h2>these tests are targeting: <span class="target-url"/></h2>
+    <a href="./index.html">choose a different server to target</a>
   </section>
 
   <section id="mocha"></section>
