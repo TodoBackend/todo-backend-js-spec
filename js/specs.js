@@ -36,6 +36,8 @@ function defineSpecsFor(apiRoot){
     return get(apiRoot);
   }
 
+  function urlFromTodo(todo){ return todo.url; }
+
   describe( "Todo-Backend API residing at "+apiRoot, function(){
 
     function createFreshTodoAndGetItsUrl(params){
@@ -43,7 +45,7 @@ function defineSpecsFor(apiRoot){
         title: "blah"
       });
       return postRoot(postParams)
-        .then( function(newTodo){ return newTodo.url; } );
+        .then( urlFromTodo );
     };
 
     describe( "the pre-requisites", function(){
@@ -104,6 +106,13 @@ function defineSpecsFor(apiRoot){
           return todo;
         });
       });
+      it("each new todo has a url, which returns a todo", function(){
+        var fetchedTodo = postRoot({title:"my todo"})
+          .then( function(newTodo){
+            return get(newTodo.url);
+          });
+        return expect(fetchedTodo).to.eventually.have.property("title","my todo");
+      });
     });
 
 
@@ -113,7 +122,7 @@ function defineSpecsFor(apiRoot){
       });
 
       it("can change the todo's title by PATCHing to the todo's url", function(){
-        return createFreshTodoAndGetItsUrl()
+        return createFreshTodoAndGetItsUrl({title:"initial title"})
           .then( function(urlForNewTodo){
             return patchJson( urlForNewTodo, {title:"bathe the cat"} );
           }).then( function(patchedTodo){
@@ -183,6 +192,17 @@ function defineSpecsFor(apiRoot){
           });
 
         return expect(patchedTodo).to.eventually.have.property("order",95);
+      });
+
+      it("remembers changes to a todo's order", function(){
+        var refetchedTodo = createFreshTodoAndGetItsUrl( {order: 10} )
+          .then( function(newTodoUrl){
+            return patchJson(newTodoUrl,{order:95});
+          }).then( function( patchedTodo ){
+            return get(urlFromTodo(patchedTodo));
+          });
+
+        return expect(refetchedTodo).to.eventually.have.property("order",95);
       });
     });
   });
