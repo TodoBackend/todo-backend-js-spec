@@ -121,6 +121,20 @@ function defineSpecsFor(apiRoot){
         return delete_(apiRoot);
       });
 
+      it("can navigate from a list of todos to an individual todo via urls", function(){
+        var makeTwoTodos = Q.all( [
+          postRoot({title:"todo the first"}),
+          postRoot({title:"todo the second"})
+          ] );
+
+        var getAgainstUrlOfFirstTodo = makeTwoTodos.then( getRoot ).then( function(todoList){
+          expect(todoList).to.have.length(2);
+          return get(urlFromTodo(todoList[0]));
+        });
+
+        return expect(getAgainstUrlOfFirstTodo).to.eventually.have.property("title");
+      });
+
       it("can change the todo's title by PATCHing to the todo's url", function(){
         return createFreshTodoAndGetItsUrl({title:"initial title"})
           .then( function(urlForNewTodo){
