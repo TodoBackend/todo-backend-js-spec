@@ -250,7 +250,7 @@ function defineSpecsFor(apiRoot){
     }else{
       return Error(
         failureHeader
-        + xhr 
+        + xhr.status + ": " + xhr.statusText + " (" + xhr.responseText.replace(/\n*$/, "") + ")"
         + "\n\n"
       );
     }
