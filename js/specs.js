@@ -1,7 +1,11 @@
 function defineSpecsFor(apiRoot){
-
+  
   function get(url, options){
     return getRaw(url,options).then( transformResponseToJson );
+  }
+  
+  function search(term, options) {
+    return getRaw(apiRoot + '/search/' + term, options).then(transformResponseToJson);
   }
 
   function getRaw(url, options){
@@ -217,6 +221,104 @@ function defineSpecsFor(apiRoot){
           });
 
         return expect(refetchedTodo).to.eventually.have.property("order",95);
+      });
+    });
+    
+    describe('Searching for todos', function() {
+      it('should return all todos containing `a`', function() {
+        return delete_(apiRoot).then(function () {
+          return Q.all([
+            postRoot({ title: 'I love pasta' }),
+            postRoot({ title: 'I love pizza' }),
+            postRoot({ title: 'I love cassoulet' }),
+            postRoot({ title: 'I love chicken' })
+          ]);
+        }).then(function () {
+          return search('a').then(function (found) {
+            expect(found).to.have.lengthOf(3);
+            ['I love pasta', 'I love pizza', 'I love cassoulet'].forEach(function (title) {
+              let match = found.find(function (todo) { return todo.title === title; });
+              expect(match).to.exist;
+            });
+            return Promise.resolve();
+          });
+        });
+      });
+      
+      it('should return no todos (none matches)', function() {
+        return delete_(apiRoot).then(function () {
+          return Q.all([
+            postRoot({ title: 'I love pasta' }),
+            postRoot({ title: 'I love pizza' }),
+            postRoot({ title: 'I love cassoulet' }),
+            postRoot({ title: 'I love chicken' })
+          ]);
+        }).then(function () {
+          return search('sdf').then(function (found) {
+            expect(found).to.have.lengthOf(0);
+            return Promise.resolve();
+          });
+        });
+      });
+      
+      it('should search for partial words', function() {
+        return delete_(apiRoot).then(function () {
+          return Q.all([
+            postRoot({ title: 'I hate pasta' }),
+            postRoot({ title: 'I love pizza' }),
+            postRoot({ title: 'I love cassoulet' }),
+            postRoot({ title: 'I love chicken' })
+          ]);
+        }).then(function () {
+          return search('hat').then(function (found) {
+            expect(found).to.have.lengthOf(1);
+            ['I hate pasta'].forEach(function (title) {
+              let match = found.find(function (todo) { return todo.title === title; });
+              expect(match).to.exist;
+            });
+            return Promise.resolve();
+          });
+        });
+      });
+      
+      it('should search for multiple words', function() {
+        return delete_(apiRoot).then(function () {
+          return Q.all([
+            postRoot({ title: 'I hate pasta' }),
+            postRoot({ title: 'I love pizza' }),
+            postRoot({ title: 'I love cassoulet' }),
+            postRoot({ title: 'I love chicken' })
+          ]);
+        }).then(function () {
+          return search('I love').then(function (found) {
+            expect(found).to.have.lengthOf(3);
+            ['I love pizza', 'I love cassoulet', 'I love chicken'].forEach(function (title) {
+              let match = found.find(function (todo) { return todo.title === title; });
+              expect(match).to.exist;
+            });
+            return Promise.resolve();
+          });
+        });
+      });
+      
+      it('should search and be case insensitive', function() {
+        return delete_(apiRoot).then(function () {
+          return Q.all([
+            postRoot({ title: 'I hate pasta' }),
+            postRoot({ title: 'I love pizza' }),
+            postRoot({ title: 'I love cassoulet' }),
+            postRoot({ title: 'I love chicken' })
+          ]);
+        }).then(function () {
+          return search('i love').then(function (found) {
+            expect(found).to.have.lengthOf(3);
+            ['I love pizza', 'I love cassoulet', 'I love chicken'].forEach(function (title) {
+              let match = found.find(function (todo) { return todo.title === title; });
+              expect(match).to.exist;
+            });
+            return Promise.resolve();
+          });
+        });
       });
     });
   });
