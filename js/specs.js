@@ -232,3 +232,7 @@ function defineSpecsFor(apiRoot){
     }
   }
 }
+
+module.exports = {
+  defineSpecsFor: defineSpecsFor
+}
