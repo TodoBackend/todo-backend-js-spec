@@ -4,7 +4,7 @@ Executable specs in javascript for the Todo-Backend API.
 
 ## Run in the browser
 
-Start a static web server, eg.:
+Start a static web server, eg.:  
 `python3 -m http.server`
 
 ## Run on the command line
@@ -21,4 +21,4 @@ Windows:
 `SET TARGET_ADDRESS=http://localhost:5000 && npm test`
 
 Linux:  
-`TARGET_ADDRESS=http://localhost:5000 && npm test`
+`export TARGET_ADDRESS=http://localhost:5000 && npm test`
