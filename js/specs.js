@@ -8,7 +8,9 @@ function defineSpecsFor(apiRoot){
     return ajax("GET", url, options);
   }
   function post(url, data, options){
-    options = options || {};
+    options = options || {
+        contentType: "application/json"
+    };
     options.data = JSON.stringify(data);
     return ajax("POST", url, options);
   }
@@ -17,7 +19,9 @@ function defineSpecsFor(apiRoot){
   }
 
   function patch(url, data, options){
-    options = options || {};
+    options = options || {
+        contentType: "application/json"
+    };
     options.data = JSON.stringify(data);
     return ajax("PATCH", url, options);
   }
@@ -260,7 +264,6 @@ function defineSpecsFor(apiRoot){
     var ajaxOptions = _.defaults( (options||{}), {
       type: httpMethod,
       url: url,
-      contentType: "application/json",
       dataType: "text", // so we can explicitly parse JSON and fail with more detail than jQuery usually would give us
       timeout: 30000 // so that we don't fail while waiting on a heroku dyno to spin up
     });
