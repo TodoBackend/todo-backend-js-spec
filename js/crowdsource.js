@@ -17,13 +17,13 @@ if( targetRootUrl ){
 function runAndRecordTests(){
   mocha.checkLeaks();
   var runner = mocha.run();
-  analytics.track('Test Start',{targetRootUrl:targetRootUrl});
+  track('Test Start',{targetRootUrl:targetRootUrl});
 
   runner.on('suite end', function(suite){
     if( suite.root ){
       var suitePayload = serializeSuite(suite);
 
-      analytics.track('Test Suite End', suitePayload);
+      track('Test Suite End', suitePayload);
       //console.log('Test Suite End', suitePayload);
     }
   });
@@ -42,6 +42,11 @@ function serializeSuite(suite){
     pending: suite.pending,
     title: suite.title
   };
+}
+
+function track(eventName,eventPayload){
+  analytics.track(eventName, eventPayload, { context: { ip: "0.0.0.0" }});
+  
 }
 
 })();
