@@ -17,7 +17,7 @@ if( targetRootUrl ){
 function runAndRecordTests(){
   mocha.checkLeaks();
   var runner = mocha.run();
-  analytics.track('Test Start');
+  analytics.track('Test Start',{targetRootUrl:targetRootUrl});
 
   runner.on('suite end', function(suite){
     if( suite.root ){
