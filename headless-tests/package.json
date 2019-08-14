@@ -1,0 +1,16 @@
+{
+  "name": "todo-backend-headless-specs",
+  "version": "1.0.0",
+  "description": "tooling to run the todobackend.com specs against an arbitrary implementation",
+  "main": "index.js",
+  "author": "Pete Hodgson",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "mocha-puppeteer": "^0.14.0",
+    "puppeteer": "^1.17.0",
+    "q": "^1.5.1",
+    "underscore": "^1.9.1"
+  }
+}
