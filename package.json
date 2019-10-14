@@ -1,0 +1,12 @@
+{
+    "scripts": {
+        "test": "mocha js/cli-test.js"
+    },
+    "dependencies": {
+        "chai": "^4.2.0",
+        "chai-as-promised": "^7.1.1",
+        "q": "^1.5.1",
+        "request": "^2.88.0",
+        "underscore": "^1.9.1"
+    }
+}
