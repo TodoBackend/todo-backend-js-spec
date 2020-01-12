@@ -7,7 +7,9 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "jquery": "^3.4.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "jquery": "^2.1.1",
     "mocha-puppeteer": "^0.14.0",
     "puppeteer": "^1.17.0",
     "q": "^1.5.1",

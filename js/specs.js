@@ -1,3 +1,7 @@
+if( module ){
+  module.exports = defineSpecsFor;
+}
+
 function defineSpecsFor(apiRoot){
 
   function get(url, options){
