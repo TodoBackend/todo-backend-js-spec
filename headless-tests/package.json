@@ -14,5 +14,8 @@
     "puppeteer": "^1.17.0",
     "q": "^1.5.1",
     "underscore": "^1.9.1"
+  },
+  "scripts": {
+    "test": "mocha-puppeteer headless-specs.js"
   }
 }
