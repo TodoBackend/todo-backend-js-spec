@@ -1,6 +1,6 @@
 const defineSpecsFor = require ('./specs'); 
 
-//window.TARGET_API_ROOT = 'https://todo-backend-micro.herokuapp.com/';
+// window.TARGET_API_ROOT = 'https://todo-backend-micro.herokuapp.com/';
 if( !window.TARGET_API_ROOT ){
   throw new Error('window.TARGET_API_ROOT not defined')
 }
